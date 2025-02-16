@@ -6,7 +6,7 @@ import numpy as np
 import google.generativeai as genai  # Google Gemini API
 
 # Configure Gemini Pro API
-GEMINI_API_KEY = "AIzaSyBVsxWeS5hozBw0WFh0Ihn9C3Xye1rnNw4"  # Replace with actual API key
+GEMINI_API_KEY = your_api_key  # Replace with actual API key
 genai.configure(api_key=GEMINI_API_KEY)
 
 # Load embedding model
