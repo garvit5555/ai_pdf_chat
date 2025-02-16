@@ -4,13 +4,13 @@ import faiss
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 
-# Step 1: Extract text from PDF
+
 def extract_text_from_pdf(pdf_path):
     doc = fitz.open(pdf_path)
     text = "\n".join([page.get_text("text") for page in doc])
     return text
 
-# Step 2: Chunk text dynamically
+
 def chunk_text(text, max_length=512):
     sentences = text.split(". ")  # Simple sentence-based splitting
     chunks, chunk = [], ""
@@ -24,13 +24,13 @@ def chunk_text(text, max_length=512):
         chunks.append(chunk.strip())
     return chunks
 
-# Step 3: Generate embeddings
+
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
 def generate_embeddings(chunks):
     return model.encode(chunks, convert_to_numpy=True)
 
-# Step 4: Store and Search Vectors using FAISS
+
 class FAISSVectorStore:
     def __init__(self, embedding_dim):
         self.index = faiss.IndexFlatL2(embedding_dim)  # FAISS index for vector search
@@ -52,7 +52,7 @@ class FAISSVectorStore:
 
         return results
 
-# Step 5: Rerank results using cosine similarity
+# Rerank results using cosine similarity
 def rerank_results(query, results):
     query_embedding = model.encode([query], convert_to_numpy=True).reshape(1, -1)  # Ensure 2D
     reranked = sorted(
@@ -64,7 +64,7 @@ def rerank_results(query, results):
     )
     return reranked
 
-# Example usage
+
 if __name__ == "__main__":
     pdf_path = "a.pdf"  # Change to actual PDF path
     text = extract_text_from_pdf(pdf_path)
